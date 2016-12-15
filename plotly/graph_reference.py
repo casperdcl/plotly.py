@@ -222,8 +222,8 @@ def get_attributes_dicts(object_name, parent_object_names=()):
 
     # We return a dict mapping paths to attributes. We also add in additional
     # attributes if defined.
-    attributes_dicts = {path: utils.get_by_path(GRAPH_REFERENCE, path)
-                  for path in attribute_paths}
+    attributes_dicts = dict((path, utils.get_by_path(GRAPH_REFERENCE, path))
+                            for path in attribute_paths)
     attributes_dicts['additional_attributes'] = additional_attributes
 
     return attributes_dicts
@@ -589,6 +589,6 @@ _patch_arrays()
 
 CLASSES = _get_classes()
 
-OBJECT_NAME_TO_CLASS_NAME = {class_dict['object_name']: class_name
-                             for class_name, class_dict in CLASSES.items()
-                             if class_dict['object_name'] is not None}
+OBJECT_NAME_TO_CLASS_NAME = dict((class_dict['object_name'], class_name)
+                                 for class_name, class_dict in CLASSES.items()
+                                 if class_dict['object_name'] is not None)
