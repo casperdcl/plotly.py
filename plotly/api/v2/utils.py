@@ -15,7 +15,7 @@ def make_params(**kwargs):
     :returns: (dict) A params dict to pass to `request`.
 
     """
-    return {k: v for k, v in kwargs.items() if v is not None}
+    return dict((k, v) for k, v in kwargs.items() if v is not None)
 
 
 def build_url(resource, id='', route=''):

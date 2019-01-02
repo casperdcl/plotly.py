@@ -102,8 +102,8 @@ def _plot_option_logic(plot_options_from_call_signature):
     user_plot_options.update(file_options)
     user_plot_options.update(session_options)
     user_plot_options.update(plot_options_from_call_signature)
-    user_plot_options = {k: v for k, v in user_plot_options.items()
-                         if k in default_plot_options}
+    user_plot_options = dict((k, v) for k, v in user_plot_options.items()
+                             if k in default_plot_options)
 
     return user_plot_options
 
@@ -377,8 +377,8 @@ def _swap_xy_data(data_obj):
 def byteify(input):
     """Convert unicode strings in JSON object to byte strings"""
     if isinstance(input, dict):
-        return {byteify(key): byteify(value)
-                for key, value in input.iteritems()}
+        return dict((byteify(key), byteify(value))
+                    for key, value in input.iteritems())
     elif isinstance(input, list):
         return [byteify(element) for element in input]
     elif isinstance(input, unicode):

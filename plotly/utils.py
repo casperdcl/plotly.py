@@ -36,7 +36,7 @@ sage_all = get_module('sage.all')
 lock = threading.Lock()
 
 PY36 = (
-    sys.version_info.major == 3 and sys.version_info.minor == 6
+    sys.version_info[:2] == (3, 6)
 )
 
 
@@ -80,7 +80,7 @@ def load_json_dict(filename, *args):
                 data = {}  # TODO: issue a warning and bubble it up
         lock.release()
         if args:
-            return {key: data[key] for key in args if key in data}
+            return dict((key, data[key]) for key in args if key in data)
     return data
 
 

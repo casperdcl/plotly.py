@@ -25,8 +25,8 @@ psutil = get_module('psutil')
 # Valid image format constants
 # ----------------------------
 valid_formats = ('png', 'jpeg', 'webp', 'svg', 'pdf', 'eps')
-format_conversions = {fmt: fmt
-                      for fmt in valid_formats}
+format_conversions = dict((fmt, fmt)
+                      for fmt in valid_formats)
 format_conversions.update({'jpg': 'jpeg'})
 
 
@@ -856,10 +856,10 @@ def orca_env():
 
     try:
         # Clear and save
-        orig_env_vars.update({
-            var: os.environ.pop(var)
+        orig_env_vars.update(dict(
+            (var, os.environ.pop(var))
             for var in clear_env_vars
-            if var in os.environ})
+            if var in os.environ))
         yield
     finally:
         # Restore
@@ -1227,7 +1227,7 @@ def request_image_with_retrying(**kwargs):
     server_url = 'http://{hostname}:{port}'.format(
         hostname='localhost', port=orca_state['port'])
 
-    request_params = {k: v for k, v, in kwargs.items() if v is not None}
+    request_params = dict((k, v) for k, v, in kwargs.items() if v is not None)
     json_str = json.dumps(request_params, cls=plotly.utils.PlotlyJSONEncoder)
     response = requests.post(server_url + '/', data=json_str)
     return response

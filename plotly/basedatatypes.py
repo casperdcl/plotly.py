@@ -1913,10 +1913,10 @@ Invalid property path '{key_path_str}' for layout
             ]))
 
         # Initialize restyle_data dict with all values undefined
-        restyle_data = {
-            prop: [Undefined for _ in range(len(trace_indexes))]
+        restyle_data = dict(
+            (prop, [Undefined for _ in range(len(trace_indexes))])
             for prop in all_props
-        }
+        )
 
         # Fill in values
         for trace_ind, trace_style in batch_style_commands.items():
@@ -2942,9 +2942,9 @@ class BasePlotlyType(object):
         props = self._props if self._props is not None else {}
 
         # Remove literals (These can't be specified in the constructor)
-        props = {p: v for p, v in props.items()
+        props = dict((p, v) for p, v in props.items()
                  if p in self._validators and
-                 not isinstance(self._validators[p], LiteralValidator)}
+                 not isinstance(self._validators[p], LiteralValidator))
 
         # Build repr string
         repr_str = BasePlotlyType._build_repr_for_class(
@@ -3597,18 +3597,18 @@ class BaseLayoutType(BaseLayoutHierarchyType):
         """
         Process any extra kwargs that are not predefined as constructor params
         """
-        unknown_kwargs = {
-            k: v
+        unknown_kwargs = dict(
+            (k, v)
             for k, v in kwargs.items()
             if not self._subplotid_prop_re.match(k)
-        }
+        )
         super(BaseLayoutHierarchyType, self)._process_kwargs(**unknown_kwargs)
 
-        subplot_kwargs = {
-            k: v
+        subplot_kwargs = dict(
+            (k, v)
             for k, v in kwargs.items()
             if self._subplotid_prop_re.match(k)
-        }
+        )
 
         for prop, value in subplot_kwargs.items():
             self._set_subplotid_prop(prop, value)

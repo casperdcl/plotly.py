@@ -85,7 +85,7 @@ def copy_to_readonly_numpy_array(v, kind=None, force_numeric=False):
     first_kind = kind[0] if kind else None
 
     # u: unsigned int, i: signed int, f: float
-    numeric_kinds = {'u', 'i', 'f'}
+    numeric_kinds = set(['u', 'i', 'f'])
     kind_default_dtypes = {
         'u': 'uint32', 'i': 'int32', 'f': 'float64', 'O': 'object'}
 
@@ -1754,11 +1754,11 @@ class InfoArrayValidator(BaseValidator):
         validator_classname = datatype.title().replace('_', '') + 'Validator'
         validator_class = eval(validator_classname)
 
-        kwargs = {
-            k: validator_info[k]
+        kwargs = dict(
+            (k, validator_info[k])
             for k in validator_info
             if k not in ['valType', 'description', 'role']
-        }
+        )
 
         return validator_class(
             plotly_name=plotly_name, parent_name=parent_name, **kwargs)
